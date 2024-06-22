@@ -1,0 +1,36 @@
+#!/bin/bash
+
+G="\e[32m"
+R="\e[31m"
+NC="\e[0m"
+if [ ! -z $1 ] && [ $1 -eq 1 ];
+then
+	## We are going to extend Pslam and run
+	## Check if there is already a stub for is_executable
+	if grep -q "is_executable" /home/psalm/stubs/CoreGenericFunctions.phpstub;
+	then
+		echo -e "${G}The stub is already added${NC}"
+		echo -e "${G}[+] Running the extended Psalm${NC}"
+	else
+		## Add the stub
+		echo -e "${G}[+] Extending psalm${NC}"
+		printf "\n/**\n* @psalm-taint-sink unserialize \$file_name\n*/\nfunction is_executable(string \$file_name)\n{ }" >> /home/psalm/stubs/CoreGenericFunctions.phpstub
+		echo -e "${G}[+] Running the extended Psalm${NC}"
+	fi
+else
+	echo -e "${R}[+] Remove Argus' extension${NC}"
+	if grep -q "is_executable" /home/psalm/stubs/CoreGenericFunctions.phpstub;
+	then
+		head -n -6 /home/psalm/stubs/CoreGenericFunctions.phpstub > /home/psalm/stubs/CoreGenericFunctions.phpstub.tmp
+		mv /home/psalm/stubs/CoreGenericFunctions.phpstub.tmp /home/psalm/stubs/CoreGenericFunctions.phpstub
+		echo -e "${NC}[+] Running Psalm${NC}"
+	else
+		echo -e "${G}Psalm is already back to original${NC}"
+		echo -e "${NC}[+] Running Psalm${NC}"
+		## Psalm is already back to original
+	fi
+fi
+sleep 2
+cd /home/psalm
+
+./psalm --taint-analysis /home/imagemagick-engine
