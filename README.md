@@ -24,14 +24,14 @@ To facilitate the evaluation of Argus, most of our instructions are based around
 In order to run the containers, you need to download the artifact and import it to Docker. Please use the following link to download the container for phase 1 and 2 of the evaluation.
 
 <p align="center">
-<a href="https://drive.google.com/drive/folders/1Ucckwd55vrVWiMQ0n_6ewetb8w9RtA_J?usp=share_link">
+<a href="https://zenodo.org/records/12137522">
 <img src="argus-artifact.svg">
 </a>
 </p>
 
 Next, import the container using the following command:
 ```bash
-docker import argus-artifact.tar -t argus-artifact:1.0
+docker import argus-artifact.tar argus-artifact:1.0
 
 ## If you do docker images, you should see the container listed.
 ```
@@ -40,7 +40,7 @@ docker import argus-artifact.tar -t argus-artifact:1.0
 
 In order to run Argus, first run the container using the following command:
 ```bash
-docker run --rm --workdir /home --it argus-artifact:1.0 bash
+docker run --rm --workdir /home -it argus-artifact:1.0 bash
 ```
 
 After running the container, we need to perform a basic test prior to running Argus. To do so, please run the following command:
@@ -68,9 +68,9 @@ The organization of Argus' container is as follows:
         |-- enum        # The PHP extension to extract PHP APIs addresses
         |-- graph_**    # Previously recorded function traces of running PHP unit tests
     |-- php-src         # The souce code of PHP interpreter v5.6
-    |-- clean_up.sh     # The script to cleans up the container
-    |-- prepare.sh      # The script to compile PHP and our extension and runs basic tests
-    |-- run.sh          # This script runs the Argus' analysis
+    |-- clean_up.sh     # Cleans up the container
+    |-- prepare.sh      # Compiles PHP and our extension and runs basic tests
+    |-- run.sh          # Runs the Argus' analysis
 |-- step-2              # Includes the scripts and payload for validation process
 ```
 
@@ -100,7 +100,7 @@ Finally, we extend Psalm to include `is_executable` as an insecure deserializati
 
 The extended Psalm identifies six vulnerabilities, where the two newly identified issues are insecure deserialization.
 
-## BibTeX for Citations
+## BibTeX for citation
 ```
 @inproceedings {argus,
 author = {Rasoul Jahanshahi and Manuel Egele},
@@ -113,6 +113,6 @@ month = Aug,
 
 ```
 
-## Contact Us
+## Contact us
 
 If you require any further information, send an email to `rasoulj@bu.edu`
