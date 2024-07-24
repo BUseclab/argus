@@ -72,12 +72,25 @@ The organization of Argus' container is as follows:
     |-- prepare.sh      # Compiles PHP and our extension and runs basic tests
     |-- run.sh          # Runs the Argus' analysis
 |-- step-2              # Includes the scripts and payload for validation process
+    |-- run.sh          # Script which run the entire validation process
+    |-- validation.php  # The PHP script that performs the automated validation
+    |-- phar.phar       # The malicious phar file as outlined in the paper
 ```
 
 
 ## Phase 2 - Extension
 
-By the end of phase 1, Argus identifies the set of PHP APIs that lead to deserialization in PHP5.6. In this phase, we demonstrate that by extending existing static analysis tools using Argus' results, we can detect previously unknown vulnerabilities. Please use the following command to build and run the container:
+By the end of phase 1, Argus identifies the set of PHP APIs that lead to deserialization in PHP5.6. In this phase, we demonstrate that by extending existing static analysis tools using Argus' results, we can detect previously unknown vulnerabilities.
+
+For this phase, we use a Dockerfile to create the environment for the extended psalm. The organization of phase-3 directory is as follows:
+```bash
+.
+|-- Dockerfile          # The Dockerfile which creates the environment for extended psalm
+|-- run.sh              # Bash script to automatically create the environment and get a shell
+|-- script              # Bash script which extends, runs Psalm analysis, and generates its report 
+```
+
+In order to start phase 2 evaluation, please use the following command to build and run the container:
 
 ```bash
 cd phase-3 && ./run all
